@@ -11,14 +11,17 @@ The following contracts were in scope:
 
 - `contracts/NameService/NameService.sol`
 - `contracts/TokenURIProvider.sol`
+- `contracts/Blast/BlastBaseUpgradeable.sol`
 
-After completion of the fixes, the commit `111e21424c8626a40e437010e3e358ddb7a69057` was reviewed and all the issues mentioned here were solved.
+After completion of the fixes, the commit `42fd63fbd172457770ce16b8c84dc30ed74082d8` was reviewed and all the issues mentioned here were solved.
 
 ## Summary of Findings
 
 | ID     | Title                                  | Severity | Fixed |
 |--------|----------------------------------------|----------|-------|
 | [H-01] | Incomplete cleanup of username mapping | High     | ✓     |
+| [H-02] | Potential DoS for gas and yield claim  | High     | ✓     |
+| [H-03] | Missing setter for points operator     | High     | ✓     |
 | [L-01] | Protocol fee inconsistency             | Low      | ✓     |
 | [L-02] | Sell Limit off by one                  | Low      | ✓     |
 | [L-03] | Misleading naming                      | Low      | ✓     |
@@ -86,6 +89,41 @@ for (uint256 i = 0; i < idsLength; i++) {
   string memory name = tokenIdToName[ids[i]];
   delete nameToTokenId[name];
   delete tokenIdToName[ids[i]];
+}
+```
+
+### [H-02] Potential DoS for gas and yield claim
+
+The contract `BlastBaseUpgradeable.sol` allows assigning separate addresses to the roles of gas claimer, yield claimer and points operator. For each role there are a couple of functions which can only be called by the address assigned to that role. The problem is, that both the gas claimer and yield claimer role are able to call the function `setBlast(IBlast blast)` which will change the underlying address that is called by most of the other functions. If either the gas claimer or yield claimer is misbehaving it could
+- potentially deny the other role from successfully calling its role-specific functions.
+- unbeknown to the other role, redirect calls to a contract in its control by deploying a contract with matching ABI to the original Blast contract and setting the address via `setBlast`.
+
+#### Recommendation
+
+Hardcode the address for the underlying Blast contract, because it will never change anyway. Allowing this address to be dynamically changed is unnecessary. The Blast documentation contains an [example usage](https://docs.blast.io/building/guides/gas-fees#setting-gas-mode-to-claimable) like this:
+
+```solidity
+contract MyContract {
+  IBlast public constant BLAST = IBlast(0x4300000000000000000000000000000000000002);
+
+  constructor() {
+    // This sets the Gas Mode for MyContract to claimable
+    BLAST.configureClaimableGas();
+  }
+}
+```
+
+### [H-03] Missing setter for points operator
+
+The contract `BlastBaseUpgradeable.sol` has setters to update the address for the gas claimer and yield claimer, but it does not have one for the points operator address.
+
+#### Recommendation
+
+Add a setter function for the points operator address which can only be called by the current points operator:
+
+```solidity
+function setPointsOperator(address pointsOperator_) external onlyPointsOperator {
+  pointsOperator = pointsOperator_;
 }
 ```
 
