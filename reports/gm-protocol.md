@@ -19,8 +19,9 @@ The following source files were in scope:
 - `contracts/BondingCurveMarket/CreatorVaultImpl.sol`
 - `contracts/BondingCurveMarket/DefaultTokenURI.sol`
 - `contracts/BondingCurveMarket/Router.sol`
+- `contracts/Blast/BlastBaseUpgradeable.sol`
 
-After completion of the fixes, the commit `4e87d2dd33c0e31e3a1ccbc942a89a3003b69991` was reviewed and all the issues mentioned here were solved.
+After completion of the fixes, the commit `2918a4aaefeb6044c5e5a9af97a24df06f6ed97b` was reviewed and all the issues mentioned here were solved.
 
 ## Summary of Findings
 
