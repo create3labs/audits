@@ -1,19 +1,20 @@
 # GM Name Service Audit Report
 
 - Prepared by: create3labs
-- Date: February 26 to March 4, 2024
+- Date: February 26 to March 27, 2024
 
 ## Summary & Scope
 
-The Name Service repository was audited at commit `0698352afc2b58545880f1a563cd886c4aa870e2`
+The Name Service repository was reviewed regularly during development, with the final audit being conducted at commit `a8a940be3ef55ae11d2a442b80afe27818f41db0`.
 
 The following contracts were in scope:
 
 - `contracts/NameService/NameService.sol`
+- `contracts/NameService/NameServiceCascade.sol`
 - `contracts/TokenURIProvider.sol`
 - `contracts/Blast/BlastBaseUpgradeable.sol`
 
-After completion of the fixes, the commit `42fd63fbd172457770ce16b8c84dc30ed74082d8` was reviewed and all the issues mentioned here were solved.
+Issues that were identified and fixed during development are listed below.
 
 ## Summary of Findings
 
