@@ -1,11 +1,11 @@
 # GM Protocol Audit Report
 
 - Prepared by: create3labs
-- Date: March 4 to 11, 2024
+- Date: March 4 to 27, 2024
 
 ## Summary & Scope
 
-The GM Protocol repository was audited at commit `32052077c578c46bd5e0e46d61a0c9a5e88e5439`
+The GM Protocol repository was reviewed regularly during development, with the final audit being conducted at commit `d787b9153e57232da71b7ba9cda5334a27a44af8`.
 
 The following source files were in scope:
 
@@ -21,7 +21,7 @@ The following source files were in scope:
 - `contracts/BondingCurveMarket/Router.sol`
 - `contracts/Blast/BlastBaseUpgradeable.sol`
 
-After completion of the fixes, the commit `2918a4aaefeb6044c5e5a9af97a24df06f6ed97b` was reviewed and all the issues mentioned here were solved.
+Issues that were identified and fixed during development are listed below.
 
 ## Summary of Findings
 
